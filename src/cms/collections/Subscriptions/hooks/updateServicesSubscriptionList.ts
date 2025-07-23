@@ -4,7 +4,7 @@ import { ACTUAL_SUBSCRIPTIONS_STATUS_STRING } from '@cms/constants/common';
 
 export const updateServicesSubscriptionListAfterChange: CollectionAfterChangeHook = async ({doc, req, context})=> {
 
-  console.log('Создаем оплаченную подписку из админки. Контекст: ', context)
+  console.log('Generate active subscription from adminPanel. context: ', context)
 
   if (context.updatePaymentInfo) {
     return
@@ -12,7 +12,7 @@ export const updateServicesSubscriptionListAfterChange: CollectionAfterChangeHoo
   const isCreateActiveSubscription = ACTUAL_SUBSCRIPTIONS_STATUS_STRING.includes(doc.subscriptionStatus)
   if (isCreateActiveSubscription) {
 
-    console.log('Эта подписка имеет активный статус: ', ACTUAL_SUBSCRIPTIONS_STATUS_STRING.includes(doc.subscriptionStatus))
+    console.log('This subscription have status "Active or expect_payment": ', ACTUAL_SUBSCRIPTIONS_STATUS_STRING.includes(doc.subscriptionStatus))
 
     await updateServicesSubscriptionList(req.payload, doc, 'add')
   }
@@ -41,7 +41,7 @@ export async function updateServicesSubscriptionList(payload: Payload, currentSu
   })
 
 
-  console.log('Функция обновления услуги нашла нужный документ: ', requestSubscriptionsOfRefer)
+  console.log('Function ServiceUpdate found current document: ', requestSubscriptionsOfRefer)
 
   const isExistCurrentSubscription = requestSubscriptionsOfRefer?.subscriptions?.find(elem => elem === currentSubscription.type)
   let newSubscriptionArray: ('pro' | 'priority' | 'banners')[] | null = []
@@ -59,10 +59,9 @@ export async function updateServicesSubscriptionList(payload: Payload, currentSu
       break
   }
 
-  console.log('Функция обновления услуги сформировала новый список подписок: ', newSubscriptionArray)
+  console.log('Function ServiceUpdate generated new subscriptionList: ', newSubscriptionArray)
 
   if (newSubscriptionArray) {
-    const drizzle = payload.db.drizzle
     const result = await payload.update({
       collection: 'services',
       id: currentSubscriptionReferId,

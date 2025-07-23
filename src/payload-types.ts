@@ -168,8 +168,6 @@ export interface Service {
   id: number;
   isPlace?: boolean | null;
   title: string;
-  moderationStatus?: ('draft' | 'on_moderation' | 'failed_moderation' | 'published' | 'inactive') | null;
-  moderationMessage?: string | null;
   subscriptions?: ('pro' | 'priority' | 'banners')[] | null;
   rating?: number | null;
   updatedAt: string;
@@ -184,18 +182,8 @@ export interface Service {
 export interface ServicesSub {
   id: number;
   type: 'pro' | 'priority' | 'banners';
-  priorityPlace?: ('first' | 'second' | 'third') | null;
   refer: number | Service;
-  endDate?: string | null;
   subscriptionStatus?: ('active' | 'expect_payment' | 'expired') | null;
-  _paymentLinkCreatedAt?: string | null;
-  paymentInfo?:
-    | {
-        id?: string | null;
-        amount?: string | null;
-        date?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -311,8 +299,6 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ServicesSelect<T extends boolean = true> {
   isPlace?: T;
   title?: T;
-  moderationStatus?: T;
-  moderationMessage?: T;
   subscriptions?: T;
   rating?: T;
   updatedAt?: T;
@@ -324,18 +310,8 @@ export interface ServicesSelect<T extends boolean = true> {
  */
 export interface ServicesSubSelect<T extends boolean = true> {
   type?: T;
-  priorityPlace?: T;
   refer?: T;
-  endDate?: T;
   subscriptionStatus?: T;
-  _paymentLinkCreatedAt?: T;
-  paymentInfo?:
-    | T
-    | {
-        id?: T;
-        amount?: T;
-        date?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }

@@ -3,6 +3,7 @@ import { rating } from '@cms/fields/commonFields'
 import { statusModeration } from '@cms/fields/statusModeration'
 import { title } from '@cms/fields/title'
 import { activeSubscriptions } from '@cms/fields/activeSubscriptions'
+import { subscriptionTypes } from '@cms/constants/common'
 
 
 export const Services: CollectionConfig = {
@@ -18,9 +19,33 @@ export const Services: CollectionConfig = {
       type: 'checkbox',
       defaultValue: false
     },
-    title,
-    statusModeration,
-    activeSubscriptions,
-    rating,
+    {
+      name: 'title',
+      label: 'Название',
+      type: 'text',
+      required: true,
+      minLength: 2,
+      maxLength: 50,
+    },
+    {
+      name: 'subscriptions',
+      label: 'Активные подписки',
+      admin: {
+        position: 'sidebar',
+        // readOnly: true,
+      },
+      type: 'select',
+      options: subscriptionTypes,
+      hasMany: true,
+    },
+    {
+      name: 'rating',
+      label: 'Рейтинг',
+      type: 'number',
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+      },
+    },
   ]
 }
